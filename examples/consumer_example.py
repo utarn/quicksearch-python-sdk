@@ -37,7 +37,7 @@ logger = logging.getLogger(__name__)
 
 # Configuration
 QUICKSEARCH_URL = "http://localhost:3000"  # Or your production URL
-API_KEY = "d3c70de4fbd25eadf464aa485752deaae143dd1c9f8bce0b64810464c4f48c50"
+API_KEY = "2cbe41dfe1ac71ba836be43a5fcf7eaa2b5071a0ac194847f284e24e9a71fd01"
 
 
 class MyAppLogger:
