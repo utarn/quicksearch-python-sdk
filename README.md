@@ -1,5 +1,9 @@
 # QuickSearch Python SDK
 
+[![PyPI version](https://badge.fury.io/py/quicksearch-python-sdk.svg)](https://badge.fury.io/py/quicksearch-python-sdk)
+[![Python versions](https://img.shields.io/pypi/pyversions/quicksearch-python-sdk.svg)](https://pypi.org/project/quicksearch-python-sdk/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 A Python library for interacting with the QuickSearch event log storage system.
 
 ## Features
@@ -340,7 +344,7 @@ uv run mypy quicksearch
 
 ## License
 
-MIT License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Support
 
