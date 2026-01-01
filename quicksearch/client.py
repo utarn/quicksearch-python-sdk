@@ -13,6 +13,7 @@ from quicksearch.exceptions import (
     ServerError,
     ValidationError,
 )
+from quicksearch.models import BatchIngestOptions
 
 
 class AuthConfig:
@@ -53,11 +54,14 @@ class BaseQuickSearchClient(ABC):
         jwt_token: str | None = None,
         timeout: float = 30.0,
         verify_ssl: bool = True,
+        batch_options: BatchIngestOptions | None = None,
     ) -> None:
         self.base_url = base_url.rstrip("/")
         self.timeout = timeout
         self.verify_ssl = verify_ssl
         self.auth = AuthConfig(api_key=api_key, jwt_token=jwt_token)
+        # Store batch options for subclasses to use
+        self._batch_options = batch_options or BatchIngestOptions()
 
     def _make_url(self, endpoint: str) -> str:
         """Construct full URL from endpoint."""

@@ -74,3 +74,43 @@ class Event(BaseModel):
     application: str | None = None
     message: str | None = None
     data: dict[str, Any] | None = None
+
+
+class BatchIngestOptions(BaseModel):
+    """Configuration for batch ingestion behavior."""
+
+    batch_size: int = Field(default=100, ge=1, le=1000, description="Max events per batch")
+    flush_interval: float = Field(default=2.0, ge=0.1, le=60.0, description="Seconds between automatic flushes")
+    queue_size_limit: int = Field(default=10000, ge=100, description="Max queued events before blocking")
+    max_concurrency: int = Field(default=5, ge=1, le=20, description="Max parallel HTTP requests")
+    retry_attempts: int = Field(default=3, ge=0, le=10, description="Number of retry attempts for failed events")
+    retry_delay: float = Field(default=1.0, ge=0.1, le=30.0, description="Initial retry delay in seconds (exponential backoff)")
+    enabled: bool = Field(default=False, description="Enable automatic batching")
+
+
+class BatchIngestError(BaseModel):
+    """Details about a failed batch ingestion."""
+
+    event_index: int = Field(description="Index of the event in the original batch")
+    event_data: dict[str, Any] = Field(description="The event data that failed")
+    error_message: str = Field(description="Error message")
+    status_code: int | None = Field(default=None, description="HTTP status code if applicable")
+    retried: bool = Field(default=False, description="Whether this error was retried")
+
+
+class BatchIngestResult(BaseModel):
+    """Result from batch ingestion with partial success support."""
+
+    success_count: int = Field(description="Number of successfully ingested events")
+    failure_count: int = Field(description="Number of failed events")
+    total_count: int = Field(description="Total number of events processed")
+    errors: list[BatchIngestError] = Field(default_factory=list, description="Detailed error information")
+    batch_count: int = Field(default=0, description="Number of batches sent")
+    processing_time_ms: int | None = Field(default=None, description="Total processing time in milliseconds")
+
+    @property
+    def success_rate(self) -> float:
+        """Calculate success rate as percentage."""
+        if self.total_count == 0:
+            return 100.0
+        return (self.success_count / self.total_count) * 100

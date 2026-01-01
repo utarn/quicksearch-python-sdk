@@ -5,6 +5,7 @@ A Python library for interacting with the QuickSearch event log storage system.
 """
 
 from quicksearch._version import __version__
+from quicksearch.async_batch_processor import QueueFullError
 from quicksearch.async_client import AsyncQuickSearchClient
 from quicksearch.client import BaseQuickSearchClient
 from quicksearch.exceptions import (
@@ -17,6 +18,9 @@ from quicksearch.exceptions import (
     ValidationError,
 )
 from quicksearch.models import (
+    BatchIngestError,
+    BatchIngestOptions,
+    BatchIngestResult,
     Event,
     EventData,
     EventResponse,
@@ -38,6 +42,10 @@ __all__ = [
     "EventResponse",
     "EventSearchResult",
     "Event",
+    # Batch models
+    "BatchIngestOptions",
+    "BatchIngestResult",
+    "BatchIngestError",
     # Exceptions
     "QuickSearchError",
     "AuthenticationError",
@@ -46,6 +54,7 @@ __all__ = [
     "ValidationError",
     "ServerError",
     "ConnectionError",
+    "QueueFullError",
 ]
 
 __author__ = "QuickSearch Team"
